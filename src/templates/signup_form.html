@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block titel %}
+signup
+{% endblock %}
+
+{% block content %}
+
+<form style="width:50%; margin:24px auto; border:2px solid black; border-radius:8px; padding:8px" method="post" class="form-register">
+    {{form.hidden_tag()}}
+    <h2>Signup</h2>
+    {{form.Name.label()}}
+    {{form.Name(class="form-control", placeholder="name")}}
+    {{form.Email.label()}}
+    {{form.Email(class="form-control", placeholder="email address")}}
+    {{form.Password.label()}}
+    {{form.Password(class="form-control", placeholder="password")}}
+    {{form.Password.label()}}
+    {{form.PasswordRe(class="form-control", placeholder="re-enter password")}}
+    {{form.Submit(class="btn btn-primary mt-3")}}
+</form>
+{% endblock %}

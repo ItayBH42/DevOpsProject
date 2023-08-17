@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    login
+{% endblock %}
+
+{% block content %}
+<form style="width:50%; margin:24px auto; border:2px solid black; border-radius:8px; padding:8px" method="post" class="form-register">
+    {{form.hidden_tag()}}
+    <h2>Login</h2>
+    {{form.Email.label()}}
+    {{form.Email(class="form-control", placeholder="email address")}}
+    {{form.Password.label()}}
+    {{form.Password(class="form-control", placeholder="password")}}
+    {{form.Submit(class="btn btn-primary mt-3")}}
+    <p>Don't have an account? <a style="color:black;" href="/signup">click here</a></p>
+</form>
+{% endblock %}
