@@ -1,14 +1,15 @@
 from flask import Flask
-from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-
+import secrets
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = "localhost"
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'your root password'
-app.config['MYSQL_DB'] = 'flask'
-app.config["SECRET_KEY"] = '143c90cfbf76cb0b91d59813c9f128c6'
-mysql = MySQL(app)
+app.secret_key = secrets.token_hex(16)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\mgpro\\Devops_project\\DevOpsProject\\trial.db'
+
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
 import src.routes
+

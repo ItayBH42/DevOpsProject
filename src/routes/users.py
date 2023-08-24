@@ -1,10 +1,18 @@
 import bcrypt
+import sqlite3
 
-from src.app import app, mysql
-from flask import render_template, redirect
+from src.app import app
+from flask import render_template, redirect, g
 from ..forms.forms import SignupFrom, LoginForm
 from src.app import bcrypt
 
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect('C:/Users/mgpro/Devops_project/DevOpsProject/trial.db')
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+app.config['DATABASE'] = 'C:/Users/mgpro/Devops_project/DevOpsProject/trial.db'
 
 @app.route('/users')
 def getUsers():
@@ -18,14 +26,14 @@ def getUsers():
 def signup():
     form = SignupFrom()
     if form.validate_on_submit():
-        cur = mysql.connection.cursor()
-        password = bcrypt.generate_password_hash(form.password.data).decode("utf8")
-        res = cur.execute("insert into users (name,email,password)"
-                          "values(%s,%s,%s)", (form.name.data, form.email.data, password))
-        cur.connection.commit()
+        db = get_db()
+        password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
+        res = db.execute("insert into users (username,email,user_password)"
+                          "values(?,?,?)", (form.Name.data, form.Email.data, password))
+        db.commit()
 
         if res == 1:
-            return redirect("/login")
+            return redirect(url_for("login"))
 
     return render_template("signup_form.html", form=form)
 
