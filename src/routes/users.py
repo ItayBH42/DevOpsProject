@@ -1,10 +1,12 @@
 import bcrypt
 import sqlite3
+import re
 
 from src.app import app
-from flask import render_template, redirect, g
+from flask import render_template, redirect, g, url_for, flash
 from ..forms.forms import SignupFrom, LoginForm
 from src.app import bcrypt
+
 
 def get_db():
     if 'db' not in g:
@@ -25,16 +27,25 @@ def getUsers():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     form = SignupFrom()
+    validation=True
     if form.validate_on_submit():
-        db = get_db()
-        password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
-        res = db.execute("insert into users (username,email,user_password)"
-                          "values(?,?,?)", (form.Name.data, form.Email.data, password))
-        db.commit()
+        if (form.Password.data != form.PasswordRe.data):
+            flash("passwords does not match")
+            validation=False
+            print(form.Password.data)
+        if not (re.fullmatch(r"^[-A-Za-z0-9!#$%&'+/=?^_`{|}~]+(?:.[-A-Za-z0-9!#$%&'+/=?^_`{|}~]+)@(?:[A-Za-z0-9](?:[-A-Za-z0-9][A-Za-z0-9])?.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?$", form.Email.data)):
+            flash("invalid email adress")
+            validation=False
+            print(form.Email.data)
 
-        if res == 1:
+
+        if validation:
+            db = get_db()
+            password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
+            res = db.execute("insert into users (username,email,user_password)"
+                            "values(?,?,?)", (form.Name.data, form.Email.data, password))
+            db.commit()
             return redirect(url_for("login"))
-
     return render_template("signup_form.html", form=form)
 
 
@@ -42,17 +53,21 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # print(form.email.data)
-        cur = mysql.connection.cursor()
+        db = get_db()  # Get the SQLite database connection
+        email = form.Email.data
 
-        res = cur.execute(f"select * from users where email='{form.email.data}'")
-        if res == 1:
-            userAttempt = cur.fetchall()[0]
+        # Fetch user data from the database using a parameterized query
+        cur = db.cursor()
+        cur.execute("SELECT * FROM users WHERE email=?", (email,))
+        userAttempt = cur.fetchone()
 
-            if bcrypt.check_password_hash(userAttempt[3], form.password.data):
-                user["data"] = {"id": userAttempt[0], "name": userAttempt[1], "email": userAttempt[2],
-                                "password": userAttempt[3]}
-                return redirect("/")
-            else:
-                print("wrong password")
+        if userAttempt and bcrypt.check_password_hash(userAttempt[3], form.Password.data):
+            # You might want to store user data in the session or use a proper user management system
+            user_data = {"id": userAttempt[0], "name": userAttempt[1], "email": userAttempt[2]}
+            # Redirect to home page after successful login
+            return redirect(url_for(""))  # 'home' is the name of the home route
+        else:
+            print("Wrong email or password")
+            return render_template("login.html", form=form)  # Return the login form with a message
+
     return render_template("login.html", form=form)
