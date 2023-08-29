@@ -1,2 +1,5 @@
 /venv
 /.venv
+
+/src/__pycache__
+/src/forms/__pycache__

@@ -2,11 +2,9 @@ import bcrypt
 import sqlite3
 import re
 
-from src.app import app
+from src.app import app,bcrypt
 from flask import render_template, redirect, g, url_for, flash
 from ..forms.forms import SignupFrom, LoginForm
-from src.app import bcrypt
-
 
 def get_db():
     if 'db' not in g:
@@ -14,7 +12,7 @@ def get_db():
         g.db.row_factory = sqlite3.Row
     return g.db
 
-app.config['DATABASE'] = 'C:/Users/mgpro/Devops_project/DevOpsProject/trial.db'
+# app.config['DATABASE'] = 'C:/Users/mgpro/Devops_project/DevOpsProject/trial.db'
 
 @app.route('/users')
 def getUsers():
@@ -65,17 +63,17 @@ def login():
 
 
 
-        # if (form.Password.data != form.PasswordRe.data):
-        #     validation=False
-        #     print(form.Password.data)
+#         # if (form.Password.data != form.PasswordRe.data):
+#         #     validation=False
+#         #     print(form.Password.data)
 
-        #     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-        #     def isValid(email):
-        #         if re.fullmatch(regex, form.Email.data):
-        #             print("Valid email")
-        #         else:
-        #             print("Invalid email")
-        #     flash("invalid email adress")
-        #     validation=False
-        #     print(form.Email.data)
-        # if validation:
+#         #     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+#         #     def isValid(email):
+#         #         if re.fullmatch(regex, form.Email.data):
+#         #             print("Valid email")
+#         #         else:
+#         #             print("Invalid email")
+#         #     flash("invalid email adress")
+#         #     validation=False
+#         #     print(form.Email.data)
+#         # if validation:
