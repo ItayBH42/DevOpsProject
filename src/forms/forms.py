@@ -6,9 +6,9 @@ class SignupFrom(FlaskForm):
     Name = StringField(label="Enter name", validators=[Length(min=2, max=30)])
     Email = StringField(label="Enter email address")
     Password = PasswordField(label="Enter password", validators=[Length(min=6)])
-    Password = PasswordField(label="Enter password", validators=[Length(min=6)])
-    PasswordRe = PasswordField(label="Re-enter password", validators=[EqualTo(Password)])
+    PasswordRe = PasswordField(label="Re-enter password", validators=[EqualTo('Password')])
     Submit = SubmitField(label="Signup")
+
 
 
 class LoginForm(FlaskForm):

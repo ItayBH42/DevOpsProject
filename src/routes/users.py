@@ -23,15 +23,14 @@ def getUsers():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     form = SignupFrom()
-    validation=True
+    print(form.validate_on_submit())
     if form.validate_on_submit():
-
-            db = get_db()
-            password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
-            res = db.execute("insert into users (username,email,user_password)"
+        db = get_db()
+        password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
+        res = db.execute("insert into users (username,email,user_password)"
                             "values(?,?,?)", (form.Name.data, form.Email.data, password))
-            db.commit()
-            return redirect(url_for("login"))
+        db.commit()
+        return redirect(url_for("login"))
     return render_template("signup_form.html", form=form)
 
 
