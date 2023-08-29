@@ -29,17 +29,7 @@ def signup():
     form = SignupFrom()
     validation=True
     if form.validate_on_submit():
-        if (form.Password.data != form.PasswordRe.data):
-            flash("passwords does not match")
-            validation=False
-            print(form.Password.data)
-        if not (re.fullmatch(r"^[-A-Za-z0-9!#$%&'+/=?^_`{|}~]+(?:.[-A-Za-z0-9!#$%&'+/=?^_`{|}~]+)@(?:[A-Za-z0-9](?:[-A-Za-z0-9][A-Za-z0-9])?.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?$", form.Email.data)):
-            flash("invalid email adress")
-            validation=False
-            print(form.Email.data)
 
-
-        if validation:
             db = get_db()
             password = bcrypt.generate_password_hash(form.Password.data).decode("utf8")
             res = db.execute("insert into users (username,email,user_password)"
@@ -71,3 +61,21 @@ def login():
             return render_template("login.html", form=form)  # Return the login form with a message
 
     return render_template("login.html", form=form)
+
+
+
+
+        # if (form.Password.data != form.PasswordRe.data):
+        #     validation=False
+        #     print(form.Password.data)
+
+        #     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        #     def isValid(email):
+        #         if re.fullmatch(regex, form.Email.data):
+        #             print("Valid email")
+        #         else:
+        #             print("Invalid email")
+        #     flash("invalid email adress")
+        #     validation=False
+        #     print(form.Email.data)
+        # if validation:
