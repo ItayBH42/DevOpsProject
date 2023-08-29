@@ -13,10 +13,16 @@ signup
     {{form.Name(class="form-control", placeholder="name")}}
     {{form.Email.label()}}
     {{form.Email(class="form-control", placeholder="email address")}}
+    {% for error in form.Email.errors %}
+        <div class="error error-red">{{ error }}</div>
+    {% endfor %}
     {{form.Password.label()}}
     {{form.Password(class="form-control", placeholder="password")}}
     {{form.Password.label()}}
     {{form.PasswordRe(class="form-control", placeholder="re-enter password")}}
+    {% for error in form.PasswordRe.errors %}
+    <div class="error- error-red">{{ error }}</div>
+    {% endfor %}
     {{form.Submit(class="btn btn-primary mt-3")}}
 </form>
 {% endblock %}
