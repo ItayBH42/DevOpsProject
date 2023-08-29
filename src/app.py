@@ -6,7 +6,7 @@ import secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\mgpro\\Devops_project\\DevOpsProject\\trial.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trial.db'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
