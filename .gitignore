@@ -1,2 +1,5 @@
 /venv
 /.venv
+/src/__pycashe__
+/src/forms/__pycashe__
+/*__pycashe__
