@@ -10,8 +10,14 @@
     <h2>Login</h2>
     {{form.Email.label()}}
     {{form.Email(class="form-control", placeholder="email address")}}
+    {% for error in form.Email.errors %}
+    <div class="error error-red">{{ error }}</div>
+    {% endfor %}
     {{form.Password.label()}}
     {{form.Password(class="form-control", placeholder="password")}}
+    {% for error in form.Password.errors %}
+        <div class="error error-red">{{ error }}</div>
+    {% endfor %}
     {{form.Submit(class="btn btn-primary mt-3")}}
     <p>Don't have an account? <a style="color:black;" href="/signup">click here</a></p>
 </form>
