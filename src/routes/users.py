@@ -8,11 +8,9 @@ from ..forms.forms import SignupFrom, LoginForm
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect('C:/Users/mgpro/Devops_project/DevOpsProject/trial.db')
+        g.db = sqlite3.connect('trial.db')
         g.db.row_factory = sqlite3.Row
     return g.db
-
-# app.config['DATABASE'] = 'C:/Users/mgpro/Devops_project/DevOpsProject/trial.db'
 
 @app.route('/users')
 def getUsers():
